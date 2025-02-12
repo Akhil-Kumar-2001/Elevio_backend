@@ -3,20 +3,43 @@ import dotenv from 'dotenv'
 
 dotenv.config();
 
+// const transporter = nodemailer.createTransport({
+//     host: "smtp.ethereal.email",
+//     port: 587,
+//     secure: false,
+//     auth: {
+//          user: process.env.MAILER_EMAIL,
+//          pass: process.env.MAILER_PASSWORD,
+//           },
+// })
+
 const transporter = nodemailer.createTransport({
-    host: "smtp.ethereal.email",
-    port: 587,
-    secure: false,
+    service: "gmail",
     auth: {
-         user: process.env.MAILER_EMAIL,
-         pass: process.env.MAILER_PASSWORD,
-          },
-})
+        user: process.env.MAILER_EMAIL,
+        pass: process.env.MAILER_PASSWORD, // Use App Password
+    },
+});
+
+
+async function testMail() {
+    try {
+        await transporter.verify();
+        console.log("SMTP Connection Successful ✅");
+    } catch (error) {
+        console.error("SMTP Connection Failed ❌", error);
+    }
+}
+
+testMail();
 
 class MailUtility{
 
-    static async sendMail(email:string, otp:number, subject:string):Promise<{message:string}>
+    static async sendMail(email:string, otp:string, subject:string):Promise<{message:string}>
     {
+        console.log("MAILER_EMAIL:", process.env.MAILER_EMAIL);
+        console.log("MAILER_PASSWORD:", process.env.MAILER_PASSWORD);
+
         if (!process.env.MAILER_EMAIL || !process.env.MAILER_PASSWORD) {
 
             throw new Error("Missing MAILER_EMAIL or MAILER_PASSWORD in environment variables");
@@ -34,7 +57,7 @@ class MailUtility{
         <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #ffffff; border-radius: 5px; border: 1px solid #ffd700;">
             <tr>
                 <td style="padding: 20px; background-color: #374151; text-align: center;">
-                    <h1 style="color: #ffffff; margin: 0;">Coder Buddy</h1>
+                    <h1 style="color: #ffffff; margin: 0;">Elevio</h1>
                 </td>
             </tr>
             <tr>
