@@ -1,5 +1,6 @@
 import IStudentRepository from "../IStudentRepository";
 import { Student, StudentType } from "../../../model/student/studentModel";
+import { OTP, OTPType } from "../../../model/otp/ otpModel";
 
 class StudentRepository implements IStudentRepository {
 
@@ -11,6 +12,27 @@ class StudentRepository implements IStudentRepository {
     async createUser(username: string, email: string, password: string): Promise<StudentType | null> {
         const newUser = await Student.create({username,email,password});
         return newUser;
+    }
+
+    async updateUserByEmail(email: string, data:StudentType): Promise<StudentType | null> {
+        const updatedUser = await Student.findOneAndUpdate({ email }, data,{ new:true })
+        return updatedUser
+    }
+
+    async storeOtpInDb(email: string, otp: string): Promise<OTPType | null> {
+        const storedOtp = await OTP.create({email,otp})
+        return storedOtp
+    }
+
+    async findOtpByemail(email: string): Promise<OTPType | null> {
+        const otp = await OTP.findOne({email :  email});
+        return otp;
+    }
+
+    async storeResendOtpInDb(email: string, otp: string): Promise<OTPType | null> {
+        console.log("ppppppppppppppp",email)
+        const storedOtp = await OTP.findOneAndUpdate({email},{otp},{new:true})
+        return storedOtp
     }
 }
 
