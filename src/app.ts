@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import http from 'http';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -27,6 +27,10 @@ app.use('/api/student',studentRouter);
 app.use('/api/tutor',tutorRouter);
 app.use('/api/admin',adminRouter);
 
+app.use((err:Error,req:Request,res:Response,next:NextFunction) => {
+  console.log(err)
+  res.status(500).json({message:'Internal server error'})
+})
 
 // app.get('/', (req:Request, res:Response) => {
 //   res.send('Hello World!');
