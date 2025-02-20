@@ -38,6 +38,16 @@ class StudentService implements IStudentService {
         const storedOtp = await this._studentRepository.storeResendOtpInDb(email,otp);
         return storedOtp
     }
+
+    async loginUser(email: string, password: string): Promise<StudentType | null> {
+        const user = await this._studentRepository.loginUser(email,password);
+        return user
+    }
+
+    async isBlocked(_id: string): Promise<number | undefined> {
+        const user = await this._studentRepository.isBlocked(_id);
+        return user
+    }
     
 
 }
