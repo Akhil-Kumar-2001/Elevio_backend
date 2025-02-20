@@ -30,9 +30,18 @@ class StudentRepository implements IStudentRepository {
     }
 
     async storeResendOtpInDb(email: string, otp: string): Promise<OTPType | null> {
-        console.log("ppppppppppppppp",email)
         const storedOtp = await OTP.findOneAndUpdate({email},{otp},{new:true})
         return storedOtp
+    }
+
+    async loginUser(email:string, password:string): Promise<StudentType | null> {
+        const user = await Student.findOne({email})
+        return user
+    }
+
+    async isBlocked(_id: string): Promise<number | undefined> {
+        const user = await Student.findById({_id});
+        return user?.status;
     }
 }
 

@@ -9,6 +9,8 @@ interface IStudentRepository  {
     storeOtpInDb(email:string, otp:string):Promise<OTPType | null>
     findOtpByemail(email:string):Promise<OTPType | null>
     storeResendOtpInDb(email:string, otp:string):Promise<OTPType | null>
+    loginUser(email:string, password:string): Promise<StudentType | null>
+    isBlocked(_id:string):Promise<number | undefined>
 
 }
 

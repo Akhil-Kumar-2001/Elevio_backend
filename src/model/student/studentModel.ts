@@ -4,7 +4,8 @@ interface StudentType extends Document {
     username?: string;
     email?: string;
     password?: string;
-    status?:number;
+    status?: number;
+    role: string;  
     subscription?: {
         subscriptionId: ObjectId;
         isActive: boolean;
@@ -37,6 +38,11 @@ const studentSchema = new Schema<StudentType>({
         enum: [0, 1, -1],
         default: 0,
     },
+    role: {
+        type: String,
+        enum: ["Student"],  
+        default: "Student",
+    },
     subscription: {
         subscriptionId: { type: Schema.Types.ObjectId, ref: "Subscription" },
         isActive: { type: Boolean, default: false },
@@ -45,7 +51,7 @@ const studentSchema = new Schema<StudentType>({
     },
     freeCourseCount: {
         type: Number,
-        default: 2, // Assuming users get two free courses initially
+        default: 0, 
     },
     profilePicture: {
         type: String,
@@ -53,4 +59,4 @@ const studentSchema = new Schema<StudentType>({
 }, { timestamps: true });
 
 const Student = model<StudentType>("Student", studentSchema);
-export  {Student,StudentType};
+export { Student, StudentType };

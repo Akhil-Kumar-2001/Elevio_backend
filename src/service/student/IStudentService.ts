@@ -8,7 +8,8 @@ interface IStudentService {
     storeUserOtp(email:string, otp:string):Promise<OTPType | null> 
     getOtpByEmail(email:string):Promise<OTPType | null>
     storeUserResendOtp(email:string, otp:string):Promise<OTPType | null> 
-
+    loginUser(email:string,password:string):Promise<StudentType | null>
+    isBlocked(_id:string):Promise<number | undefined>
 
 }
 
